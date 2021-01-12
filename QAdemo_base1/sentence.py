@@ -1,14 +1,4 @@
 # -*- coding: utf-8 -*-
-# @Time    : 2019/4/4 9:20
-# @Author  : Alan
-# @Email   : xiezhengwen2013@163.com
-# @File    : sentence.py
-# @Software: PyCharm
-
-
-from jiebaSegment import Seg
-
-
 class Sentence(object):
 
     def __init__(self, sentence, seg, id=0):

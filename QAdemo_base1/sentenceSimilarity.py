@@ -1,13 +1,3 @@
-# -*- coding: utf-8 -*-
-# @Time    : 2019/4/4 9:21
-# @Author  : Alan
-# @Email   : xiezhengwen2013@163.com
-# @File    : sentenceSimilarity.py
-# @Software: PyCharm
-
-
-import gc
-import tqdm
 import numpy as np
 from gensim import corpora, models, similarities
 from sentence import Sentence
@@ -18,9 +8,9 @@ class SentenceSimilarity():
 
     def __init__(self, seg):
         self.seg = seg
+        self.sentences = []
 
     def set_sentences(self, sentences):
-        self.sentences = []
         for i in range(0, len(sentences)):
             self.sentences.append(Sentence(sentences[i], self.seg, i))
 
@@ -34,8 +24,8 @@ class SentenceSimilarity():
         return cuted_sentences
 
     # 构建其他复杂模型前需要的简单模型
-    def simple_model(self, min_frequency = 1):
-        self.texts = self.get_cuted_sentences()
+    def simple_model(self, min_frequency=1):
+        self.texts = self.get_cuted_sentences()     # 分词
 
         # 删除低频词
         frequency = defaultdict(int)
@@ -43,8 +33,8 @@ class SentenceSimilarity():
             for token in text:
                 frequency[token] += 1
         self.texts = [[token for token in text if frequency[token] > min_frequency] for text in self.texts]
-        self.dictionary = corpora.Dictionary(self.texts)
-        self.corpus_simple = [self.dictionary.doc2bow(text) for text in self.texts]
+        self.dictionary = corpora.Dictionary(self.texts)    # 创建词库
+        self.corpus_simple = [self.dictionary.doc2bow(text) for text in self.texts] # doc2Bow是Gensim中封装的一个方法，主要用于实现Bow模型
 
     # tfidf模型
     def TfidfModel(self):
